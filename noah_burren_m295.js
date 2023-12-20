@@ -12,12 +12,35 @@ const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const path = require("path"); // require path
+const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
 
 const app = express();
 const port = 3000;
 const secretKey = "123456789";
 const tasksFilePath = path.join(__dirname, "tasks.json"); // path
 app.use(bodyParser.json());
+
+// Swagger options
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Task API",
+      version: "1.0.0",
+      description: "API user authentification for tasks",
+    },
+    servers: [
+      {
+        url: `http://localhost:${port}`,
+      },
+    ],
+  },
+  apis: ["./app.js"], // main express path
+};
+
+const specs = swaggerJsdoc(options);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 let tasks = loadTasksFromFile();
 
@@ -81,10 +104,33 @@ app.get("/verify", authenticateToken, (req, res) => {
   res.status(200).json({ message: "Token is valid", user: req.user });
 });
 
-// DELETE /logout Endpoint
+const blacklistedTokens = new Set();
+
 app.delete("/logout", authenticateToken, (req, res) => {
-  // In a real application, you might want to implement token invalidation logic here
+  const tokenHeader = req.header("Authorization");
+  const token = tokenHeader.split(" ")[1];
+
+  // Füge den Token zur Blacklist hinzu
+  blacklistedTokens.add(token);
+
   res.status(204).end();
+});
+
+// Middleware zur Überprüfung der Blacklist
+const checkBlacklist = (req, res, next) => {
+  const tokenHeader = req.header("Authorization");
+  const token = tokenHeader.split(" ")[1];
+
+  if (blacklistedTokens.has(token)) {
+    return res.status(401).json({ error: "Invalid token" });
+  }
+
+  next();
+};
+
+// Verwende checkBlacklist als Middleware für geschützte Routen
+app.get("/tasks", authenticateToken, checkBlacklist, (req, res) => {
+  // ... deine Routen-Logik hier
 });
 
 // Get a specific task by ID
