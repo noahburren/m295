@@ -1,3 +1,12 @@
+/*
+ *
+ * Projektname: Leistungsbeurteilung: Element B
+ *
+ * Author: Noah Burren
+ *
+ * Description: Task library only for authentfic Users
+ *
+ */
 const express = require("express");
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
