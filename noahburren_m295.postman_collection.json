@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "http://localhost:3000/login",
+			"name": "login",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -45,7 +45,7 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:3000/verify",
+			"name": "verify",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -86,7 +86,7 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:3000/tasks",
+			"name": "show tasks",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -127,7 +127,7 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:3000/tasks/1",
+			"name": "show task id",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -169,7 +169,7 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:3000/tasks/5",
+			"name": "404 not found",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -211,7 +211,7 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:3000/tasks",
+			"name": "add task",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -249,7 +249,7 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:3000/tasks",
+			"name": "delete task",
 			"request": {
 				"auth": {
 					"type": "bearer",
