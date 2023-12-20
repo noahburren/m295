@@ -2,11 +2,12 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
+const path = require("path"); // require path
 
 const app = express();
 const port = 3000;
 const secretKey = "123456789";
-const tasksFilePath = "tasks.json";
+const tasksFilePath = path.join(__dirname, "tasks.json"); // path
 app.use(bodyParser.json());
 
 let tasks = loadTasksFromFile();
